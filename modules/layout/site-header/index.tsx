@@ -1,6 +1,7 @@
 import { Button } from '@/modules/ui/button';
 import { Separator } from '@/modules/ui/separator';
 import { SidebarTrigger } from '@/modules/ui/sidebar';
+import { ThemeToggle } from '@/modules/ui/theme-toggle';
 
 export function SiteHeader() {
     return (
@@ -13,6 +14,7 @@ export function SiteHeader() {
                 />
                 <h1 className="text-base font-medium">Documents</h1>
                 <div className="ml-auto flex items-center gap-2">
+                    <ThemeToggle />
                     <Button
                         variant="ghost"
                         asChild
