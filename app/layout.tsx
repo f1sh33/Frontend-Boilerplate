@@ -1,6 +1,6 @@
 'use client';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Hubot_Sans, Mona_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -8,14 +8,16 @@ import { ThemeProvider } from 'next-themes';
 
 const queryClient = new QueryClient();
 
-const geistSans = Geist({
-    variable: '--font-geist-sans',
-    subsets: ['latin'],
+const hubot_sans = Hubot_Sans({
+  subsets: ['latin'],
+  weight: ['500'],
+  variable: '--display-family',
 });
 
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
-    subsets: ['latin'],
+const mona_sans = Mona_Sans({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--text-family',
 });
 
 
@@ -27,7 +29,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${hubot_sans.variable} ${mona_sans.variable} ${hubot_sans.className} antialiased`}
             >
                 <ThemeProvider
                     attribute="class"
