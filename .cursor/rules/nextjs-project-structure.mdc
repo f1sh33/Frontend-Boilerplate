@@ -1,0 +1,206 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScript, TypeScript, HTML, CSS and modern UI/UX frameworks (e.g., TailwindCSS, Shadcn, Radix). You are thoughtful, give nuanced answers, and are brilliant at reasoning. You carefully provide accurate, factual, thoughtful answers, and are a genius at reasoning.
+
+Important: try to fix things at the cause, not the symptom.
+Be very detailed with summarization and do not miss out things that are important.
+
+
+# NextJS Project Structure Guide
+
+## Project Overview
+This project follows a modular architecture using NextJS with Shadcn UI components, TailwindCSS for styling, and Tanstack Query for data fetching. The codebase emphasizes readability, maintainability, and accessibility.
+
+## Directory Structure
+
+### Root Level
+- `app/` - NextJS app directory for page routing and component mounting
+- `modules/` - Contains all feature modules and components
+- `public/` - Static assets
+- `styles/` - Global styles and TailwindCSS configuration
+
+### Module Structure
+Each module in the `modules/` directory follows this structure:
+```
+modules/
+  ├── feature-name/
+  │   ├── components/     # Module-specific components
+  │   ├── api/           # API integration
+  │   │   ├── hooks.ts   # Tanstack Query hooks
+  │   │   └── types.ts   # TypeScript types and interfaces
+  │   └── index.ts       # Module exports
+```
+
+## Code Style Guidelines
+
+### Indentation and Formatting
+- Use 4-space tab for indentation
+- Use early returns for better code readability
+- Keep lines under 100 characters when possible
+
+### TypeScript
+- All components must be typed
+- Use interfaces for API responses
+- Define types in `types.ts` within each module's `api/` folder
+- Use descriptive type names that reflect their purpose
+
+### Component Structure
+- Use const arrow functions for component definitions
+- Implement proper TypeScript types for props
+- Follow the DRY principle
+- Keep components focused and single-responsibility
+- Example:
+```typescript
+type ButtonProps = {
+    label: string;
+    onClick: () => void;
+    variant?: 'primary' | 'secondary';
+};
+
+const Button = ({ label, onClick, variant = 'primary' }: ButtonProps) => {
+    return (
+        <button
+            onClick={onClick}
+            className={cn(
+                'px-4 py-2 rounded-md',
+                variant === 'primary' ? 'bg-blue-500' : 'bg-gray-500'
+            )}
+            aria-label={label}
+            tabIndex={0}
+        >
+            {label}
+        </button>
+    );
+};
+```
+
+### Styling Guidelines
+- Use TailwindCSS classes exclusively for styling
+- Avoid inline styles and custom CSS
+- Use the `cn()` utility for conditional classes
+- Example:
+```typescript
+const className = cn(
+    'base-class',
+    isActive && 'active-class',
+    variant === 'primary' ? 'primary-class' : 'secondary-class'
+);
+```
+
+### Event Handling
+- Prefix event handlers with "handle"
+- Implement both click and keyboard interactions
+- Example:
+```typescript
+const handleClick = () => {
+    // Handle click
+};
+
+const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+        handleClick();
+    }
+};
+```
+
+### Accessibility
+- Include proper ARIA labels
+- Implement keyboard navigation
+- Use semantic HTML elements
+- Ensure proper focus management
+- Example:
+```typescript
+<div
+    role="button"
+    tabIndex={0}
+    aria-label="Toggle menu"
+    onClick={handleClick}
+    onKeyDown={handleKeyDown}
+>
+    {/* Content */}
+</div>
+```
+
+### Tanstack Query
+- All data fetching hooks must be defined in `hooks.ts` within each module's `api/` folder
+- Use proper query keys following the module structure
+- Implement proper error handling and loading states
+- Example:
+```typescript
+export const useUsers = () => {
+    return useQuery<UserResponse>({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const response = await fetch('/api/users');
+            if (!response.ok) {
+                throw new Error('Failed to fetch users');
+            }
+            return response.json();
+        }
+    });
+};
+```
+
+### API Integration
+- API endpoints should be defined in the module's `api/` folder
+- Use Tanstack Query for all data fetching
+- Implement proper error handling and loading states
+- Define response types in `types.ts`
+
+## Best Practices
+1. Keep components small and focused
+2. Use TypeScript for type safety
+3. Implement proper error boundaries
+4. Follow the single responsibility principle
+5. Use proper naming conventions
+6. Document complex logic and components
+7. Write tests for critical functionality
+8. Prioritize code readability over performance
+9. Implement proper error handling
+10. Follow accessibility guidelines
+11. Use early returns for better code flow
+12. Avoid code duplication (DRY principle)
+
+## Development Workflow
+1. Plan the implementation step by step
+2. Write pseudocode for complex logic
+3. Implement the solution
+4. Verify all functionality
+5. Ensure no TODOs or placeholders remain
+6. Test thoroughly
+7. Document as needed
+
+## Example Module Structure
+```typescript
+// modules/users/api/types.ts
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+}
+
+export interface UserResponse {
+    data: User[];
+    total: number;
+}
+
+// modules/users/api/hooks.ts
+import { useQuery } from '@tanstack/react-query';
+import type { UserResponse } from './types';
+
+export const useUsers = () => {
+    return useQuery<UserResponse>({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const response = await fetch('/api/users');
+            if (!response.ok) {
+                throw new Error('Failed to fetch users');
+            }
+            return response.json();
+        }
+    });
+};
+```
