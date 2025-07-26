@@ -1,5 +1,4 @@
 'use client';
-import type { Metadata } from 'next';
 import { Hubot_Sans, Mona_Sans } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';

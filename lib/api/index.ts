@@ -1,4 +1,4 @@
-import { FetcherParams, type ApiEndpoint, type ApiModule, type PaginationParams } from "./types";
+import { FetcherParams, type ApiEndpoint, type PaginationParams } from "./types";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
