@@ -9,7 +9,6 @@ export async function universalFetcher<Req, Res>({
 	queryParams,
 	headers = {},
 	skipAuth = false,
-	service,
 }: FetcherParams<Req>): Promise<Res> {
 	let fullUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`;
 
@@ -115,8 +114,7 @@ export const createQueryHook = <T extends ApiEndpoint>(
 				queryFn: () => universalFetcher<undefined, T['responseType']>({
 					url: apiDef.endpoint,
 					method: apiDef.method,
-					queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
-					service: apiDef.service,
+					queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
 				}),
 				staleTime: 5 * 60 * 1000, // 5 minutes
 				...apiDef.queryOptions,
@@ -128,7 +126,6 @@ export const createQueryHook = <T extends ApiEndpoint>(
 				queryFn: () => universalFetcher<undefined, T['responseType']>({
 					url: params ? replaceParams(apiDef.endpoint, params) : apiDef.endpoint,
 					method: apiDef.method,
-					service: apiDef.service,
 				}),
 				...apiDef.queryOptions,
 			});
@@ -154,8 +151,7 @@ export const createMutationHook = <T extends ApiEndpoint>(
 					url: replaceParams(apiDef.endpoint, data),
 					method: apiDef.method,
 					body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
-					queryParams: queryParams,
-					service: apiDef.service,
+					queryParams: queryParams
 				});
 			},
 			onSuccess: (data) => {
@@ -177,17 +173,3 @@ export const createMutationHook = <T extends ApiEndpoint>(
 		});
 	};
 };
-
-/* // Helper function to create hooks from API definitions
-export const createHook = <T extends ApiEndpoint>(
-	apiDef: T
-) => {
-	const isQuery = apiDef.method === 'GET';
-	
-	if (isQuery) {
-		return createQueryHook(apiDef);
-	} else {
-		return createMutationHook(apiDef);
-	}
-};
- */
